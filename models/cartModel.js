@@ -21,12 +21,7 @@ const Cart = sequelize.define('Cart', {
     quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 1,
-        validate: {
-            isInt: true,
-            min: 1,
-            max: 1 
-        }
+        defaultValue: 1
     }
 }, {
     timestamps: true
