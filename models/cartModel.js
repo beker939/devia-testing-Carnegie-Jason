@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db.js');
 const Article = require('./articleModel');
 
-// Define the Cart model
+// Définition du modèle Cart
 const Cart = sequelize.define('Cart', {
     idCartItem: {
         type: DataTypes.INTEGER,
@@ -21,10 +21,19 @@ const Cart = sequelize.define('Cart', {
     quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 1
+        defaultValue: 1,
+        validate: {
+            isInt: true,
+            min: 1,
+            max: 1 
+        }
     }
 }, {
     timestamps: true
 });
+
+// Relation entre Cart et Article
+Article.hasMany(Cart, { foreignKey: 'articleId' });
+Cart.belongsTo(Article, { foreignKey: 'articleId' });
 
 module.exports = Cart;

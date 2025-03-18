@@ -1,20 +1,18 @@
 const Cart = require('../models/cartModel');
 const Article = require('../models/articleModel');
 
-// Add an item to the cart
+// Ajouter un article au panier
 exports.addToCart = async (req, res) => {
     try {
         const { articleId, quantity } = req.body;
 
-        if (!articleId || !quantity) {
-            return res.status(400).json({ error: 'articleId and quantity are required' });
-        }
-
+        // Vérifier si l'article existe
         const article = await Article.findByPk(articleId);
         if (!article) {
             return res.status(404).json({ error: 'Article not found' });
         }
 
+        // Ajouter l'article au panier
         const cartItem = await Cart.create({ articleId, quantity });
         res.status(201).json(cartItem);
     } catch (error) {
@@ -22,7 +20,7 @@ exports.addToCart = async (req, res) => {
     }
 };
 
-// Retrieve all cart items
+// Récupérer tous les articles du panier
 exports.getCartItems = async (req, res) => {
     try {
         const cartItems = await Cart.findAll();
@@ -32,7 +30,7 @@ exports.getCartItems = async (req, res) => {
     }
 };
 
-// Update cart item quantity
+// Mettre à jour la quantité d'un article dans le panier
 exports.updateCartItem = async (req, res) => {
     try {
         const { quantity } = req.body;
@@ -49,7 +47,7 @@ exports.updateCartItem = async (req, res) => {
     }
 };
 
-// Delete a cart item
+// Supprimer un article du panier
 exports.deleteCartItem = async (req, res) => {
     try {
         const cartItem = await Cart.findByPk(req.params.idCartItem);
